@@ -13,7 +13,12 @@ export function activate(context: vscode.ExtensionContext) {
     let vl = new VoiceListener(context);
     let init_disposable = commands.registerCommand('greeting', () => {
         // window.showInformationMessage("This is Voice Command! activated");
-        vl.run();
+        if (process.platform === 'win32') {
+            vl.run();
+        }
+        else {
+            window.showInformationMessage("Sorry, this extension is only compatible with Windows OS");
+        }
     });
     context.subscriptions.push(init_disposable);
 }
