@@ -1,8 +1,8 @@
 {
     "name": "voice-commands",
     "displayName": "Voice Commands",
-    "description": "Listen user's voice commands",
-    "version": "0.0.1",
+    "description": "Listen user's voice commands.",
+    "version": "1.0.0",
     "publisher": "lanly-dev",
     "engines": {
         "vscode": "^1.8.1"
@@ -13,6 +13,9 @@
     "activationEvents": [
         "onCommand:greeting"
     ],
+    "icon": "icon.png",
+    "repository": "https://github.com/lanly-dev/VSCode-VoiceCommands-Extension",
+    "os": ["Windows OS"],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [{
