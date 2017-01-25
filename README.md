@@ -1,6 +1,6 @@
 # Voice Commands README
 
-This is an extension that take basic voice commands. [Github🔗](https://github.com/lanly-dev/VSCode-VoiceCommands-Extension "Github")
+This is an extension that take basic voice commands. [Github💡](https://github.com/lanly-dev/VSCode-VoiceCommands-Extension "Github")
 
 ## Features
 
