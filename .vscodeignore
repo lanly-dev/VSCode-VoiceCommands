@@ -8,5 +8,4 @@ src/**
 tsconfig.json
 vsc-extension-quickstart.md
 icon.psd
-icon.png
 voice-commands-1.0.0.vsix
