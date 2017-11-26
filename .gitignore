@@ -1,3 +1,4 @@
+out
 node_modules
-icon.psd
-icon.png
+.vscode-test/
+.vsix
