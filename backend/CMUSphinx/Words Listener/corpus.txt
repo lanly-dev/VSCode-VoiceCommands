@@ -1,0 +1,14 @@
+copy
+cut
+find
+format
+go_to_line
+hello_world
+paste
+quick_open
+redo
+remove
+search
+select_all
+stop_listen
+undo

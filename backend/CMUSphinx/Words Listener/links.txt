@@ -1,0 +1,2 @@
+Ref: https://procurity.wordpress.com/2016/09/10/make-your-own-voice-command-app-using-java-and-sphinx4/
+lmtool3: http://www.speech.cs.cmu.edu/tools/lmtool-new.html
