@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
     <DebugType>portable</DebugType>
-    <AssemblyName>Words Matching</AssemblyName>
+    <AssemblyName>WordsMatching</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Words Matching</PackageId>
+    <PackageId>WordsMatching</PackageId>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">

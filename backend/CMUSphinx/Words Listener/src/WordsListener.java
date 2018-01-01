@@ -8,11 +8,10 @@ public class WordsListener {
 
 	public static void main(String[] args) throws Exception {
 		// config
-		System.out.println("asddddddddddf");
 		Configuration configuration = new Configuration();
 		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
-		configuration.setDictionaryPath("resource:/8513.dic");
-		configuration.setLanguageModelPath("resource:/8513.lm");
+		configuration.setDictionaryPath("resource:/8153.dic");
+		configuration.setLanguageModelPath("resource:/8153.lm");
 
 		// disable logs
 		Logger cmRootLogger = Logger.getLogger("default.config");
@@ -39,6 +38,9 @@ public class WordsListener {
 		case "CUT":
 			System.out.print("cut");
 			break;
+		case "DELETE":
+			System.out.print("delete");
+			break;
 		case "FIND":
 			System.out.print("find");
 			break;
@@ -59,9 +61,6 @@ public class WordsListener {
 			break;
 		case "REDO":
 			System.out.print("redo");
-			break;
-		case "REMOVE":
-			System.out.print("remove");
 			break;
 		case "SEARCH":
 			System.out.print("search");
