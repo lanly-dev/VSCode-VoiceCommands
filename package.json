@@ -36,6 +36,6 @@
         "@types/mocha": "^2.2.42"
     },
     "dependencies": {
-        "node-jre": "^0.2.1"
+        "node-jre": "^0.2.3"
     }
 }
