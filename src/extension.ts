@@ -52,11 +52,11 @@ class VoiceListener {
     }
     run() {
         if (this.sysType == 'win')
-            // console.log(this.child = this.execFile(__dirname + '\\WordsMatching.exe'));
-            this.child = this.execFile(__dirname + '\\WordsMatching.exe');
+            // console.log(this.child = this.execFile(__dirname + '/WordsMatching.exe'));
+            this.child = this.execFile(__dirname + '/WordsMatching.exe');
         else
-            // console.log(jre.spawn([__dirname + '\\WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' }))
-            this.child = jre.spawn([__dirname + '\\WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' });
+            // console.log(jre.spawn([__dirname + '/WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' }))
+            this.child = jre.spawn([__dirname + '/WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' });
         this.child.stdout.on('data', function (data) {
             window.setStatusBarMessage(data.toString(), 1000);
             let centralCmd = new commandsClass();
