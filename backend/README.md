@@ -1,0 +1,2 @@
+- CMUSphinx: Eclipse Java project
+- MS Speech: Dotnet Core project

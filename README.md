@@ -1,4 +1,4 @@
-# Voice Commands README
+# Voice Commands
 
 This is an extension that take basic voice commands. [Github💡](https://github.com/lanly-dev/VSCode-VoiceCommands-Extension "Github")
 
@@ -7,7 +7,9 @@ This is an extension that take basic voice commands. [Github💡](https://github
 Basic commands include:
 * copy
 * cut
+* delete
 * find
+* format
 * go to line
 * hello world
 * paste
@@ -15,11 +17,8 @@ Basic commands include:
 * redo
 * search
 * select all
+* stop listen
 * undo
-
-## Requirements
-
-Compatible only with windows OS 
 
 ## Extension Settings
 
@@ -32,5 +31,11 @@ Context menu could hold the commands' actions.
 ## Release Notes
 
 ### 1.0.0
+- Initial release of voice commands
+- Development SDK and packages: dotnet core 1.0, .NET framework 4.6
+- Compatible with window only
 
-Initial release of voice commands
+### 2.0.0
+- Development SDK and packages: donet core 2.0, .NET framework 4.7.1, Sphinx4 alpha5, node-jre
+- Now the extension is cross-platform thanks to CMUSphinx Voice Recognition
+- Note that Windows OS user still uses the built-in library 

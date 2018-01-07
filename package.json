@@ -2,7 +2,7 @@
     "name": "voice-commands",
     "displayName": "Voice Commands",
     "description": "Listen to the user's voice commands",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "publisher": "lanly-dev",
     "engines": {
         "vscode": "^1.18.0"
@@ -10,6 +10,7 @@
     "categories": [
         "Other"
     ],
+    "icon": "icon/voicecmd2.png",
     "activationEvents": [
         "onCommand:start"
     ],
@@ -30,10 +31,10 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "@types/mocha": "^2.2.46",
+        "@types/node": "^7.0.52",
+        "typescript": "^2.6.2",
+        "vscode": "^1.1.10"
     },
     "dependencies": {
         "node-jre": "^0.2.3"
