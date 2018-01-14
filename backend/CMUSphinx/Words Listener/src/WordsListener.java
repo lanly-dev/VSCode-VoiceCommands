@@ -7,6 +7,7 @@ import edu.cmu.sphinx.api.SpeechResult;
 public class WordsListener {
 
 	public static void main(String[] args) throws Exception {
+		System.out.print("Welcome!!!");
 		// config
 		Configuration configuration = new Configuration();
 		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");

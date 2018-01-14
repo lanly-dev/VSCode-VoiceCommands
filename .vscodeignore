@@ -1,9 +1,11 @@
 .vscode/**
 .vscode-test/**
+.git
+backend/**
+icon/res/**
 out/test/**
 out/**/*.map
 src/**
-backend/**
 .gitignore
 tsconfig.json
-vsc-extension-quickstart.md
+package-lock.json

@@ -36,7 +36,5 @@
         "typescript": "^2.6.2",
         "vscode": "^1.1.10"
     },
-    "dependencies": {
-        "node-jre": "^0.2.3"
-    }
+    "dependencies": {}
 }

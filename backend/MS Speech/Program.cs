@@ -9,6 +9,7 @@ namespace WordMatching
     [STAThread]
     static void Main(String[] args)
     {
+      Console.WriteLine("Welcome!!!");
       SpeechRecognitionEngine sre = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
       string[] lines = new string[]{
         "copy",

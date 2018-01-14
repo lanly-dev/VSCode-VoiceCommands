@@ -4,4 +4,5 @@ node_modules
 .vsix
 backend/MS Speech/obj
 backend/MS Speech/bin
+backend/CMUSphinx/Words Listener/bin
 backend/CMUSphinx/.recommenders

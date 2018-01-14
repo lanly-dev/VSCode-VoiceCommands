@@ -1,18 +1,31 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-const jre = require("node-jre");
+const child_process = require("child_process");
 const vscode_1 = require("vscode");
 function activate(context) {
+    let checkJRE = false;
     let init_disposable = vscode_1.commands.registerCommand('start', () => {
         // window.showInformationMessage('This is Voice Command! activated');
-        if (process.platform === 'win32') {
-            let vl = new VoiceListener(context, 'win');
-            vl.run();
-        }
-        else {
-            let vl = new VoiceListener(context, 'other');
-            vl.run();
-        }
+        var spawn = child_process.spawn('java', ['-version']).on('error', err => { vscode_1.window.showInformationMessage('Please install JRE in order to run this extension!!!'); });
+        spawn.stderr.on('data', (data) => {
+            if (data.indexOf('version') >= 0)
+                checkJRE = true;
+            spawn.kill();
+        });
+        spawn.on('exit', (code, signal) => {
+            if (checkJRE == true) {
+                if (process.platform === 'win32') {
+                    let vl = new VoiceListener(context, 'other');
+                    vl.run();
+                }
+                else {
+                    let vl = new VoiceListener(context, 'other');
+                    vl.run();
+                }
+            }
+            else
+                vscode_1.window.showInformationMessage('Please install JRE in order to run this extension!!!');
+        });
     });
     context.subscriptions.push(init_disposable);
 }
@@ -20,7 +33,7 @@ exports.activate = activate;
 class VoiceListener {
     constructor(context, type) {
         this.sysType = type;
-        this.execFile = require('child_process').spawn;
+        this.execFile = child_process.spawn;
         this.sttbar = new SttBarItem();
         let disposable1 = vscode_1.commands.registerCommand('toggle', () => {
             if (this.sttbar.getSttText() == 'on') {
@@ -45,15 +58,15 @@ class VoiceListener {
             // console.log(this.child = this.execFile(__dirname + '/WordsMatching.exe'));
             this.child = this.execFile(__dirname + '/WordsMatching.exe');
         else
-            // console.log(jre.spawn([__dirname + '/WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' }))
-            this.child = jre.spawn([__dirname + '/WordsListener.jar'], 'WordsListener', [], { encoding: 'utf8' });
-        this.child.stdout.on('data', function (data) {
+            this.child = this.execFile('java', ['-jar', __dirname + '/WordsListener.jar'])
+                .on('error', err => { vscode_1.window.showInformationMessage('Something went wrong!!! Sorry 😢'); });
+        this.child.stdout.on('data', data => {
             vscode_1.window.setStatusBarMessage(data.toString(), 1000);
             let centralCmd = new commandsClass();
             // console.log(data.toString());
             centralCmd.runCmd(data.toString().trim());
         });
-        this.child.stderr.on('data', function (data) {
+        this.child.stderr.on('data', data => {
             console.log(data.toString());
         });
     }
@@ -81,7 +94,7 @@ class SttBarItem {
     // note(text: string) {
     //     this.statusBarItem.text = text;
     //     this.statusBarItem.show();
-    //     setTimeout(function () {
+    //     setTimeout(() => {
     //         this.statusBarItem.text = '$(zap) listening';
     //     }, 1000);
     // }
