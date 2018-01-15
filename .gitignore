@@ -1,8 +1,9 @@
-icon
-node_modules
 .vscode-test/
 .vsix
-backend/MS Speech/obj
-backend/MS Speech/bin
-backend/CMUSphinx/Words Listener/bin
 backend/CMUSphinx/.recommenders
+backend/CMUSphinx/Words Listener/bin
+backend/MS Speech/bin
+backend/MS Speech/obj
+icon/res/**
+node_modules
+package-lock.json

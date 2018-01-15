@@ -2,13 +2,18 @@
     "name": "voice-commands",
     "displayName": "Voice Commands",
     "description": "Listen to the user's voice commands",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "publisher": "lanly-dev",
     "engines": {
         "vscode": "^1.18.0"
     },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "Voice",
+        "Command",
+        "Speech Recognition"
     ],
     "icon": "icon/voicecmd2.png",
     "activationEvents": [
@@ -36,5 +41,9 @@
         "typescript": "^2.6.2",
         "vscode": "^1.1.10"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lanly-dev/VSCode-VoiceCommands-Extension"
+    }
 }

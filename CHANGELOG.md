@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
     - "hello world" command has no action.
     - Uses Microsoft Speech Platform.
 
-## [2.0.0] - Jan 2018
+## [2.0.0, 2.0.1] - Jan 2018
 ### Added
     - Cross-platform: 
         - Window OS still uses built-in Speech library.
