@@ -1,12 +1,14 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+const vscode = require("vscode");
 const child_process = require("child_process");
-const vscode_1 = require("vscode");
 function activate(context) {
     let checkJRE = false;
-    let init_disposable = vscode_1.commands.registerCommand('start', () => {
+    let init_disposable = vscode.commands.registerCommand('start', () => {
         // window.showInformationMessage('This is Voice Command! activated');
-        var spawn = child_process.spawn('java', ['-version']).on('error', err => { vscode_1.window.showInformationMessage('Please install JRE in order to run this extension!!!'); });
+        var spawn = child_process.spawn('java', ['-version']).on('error', err => {
+            vscode.window.showInformationMessage('Please install JRE in order to run this extension!!!');
+        });
         spawn.stderr.on('data', (data) => {
             if (data.indexOf('version') >= 0)
                 checkJRE = true;
@@ -14,8 +16,8 @@ function activate(context) {
         });
         spawn.on('exit', (code, signal) => {
             if (checkJRE == true) {
-                if (process.platform === 'win32') {
-                    let vl = new VoiceListener(context, 'other');
+                if (process.platform == 'win32') {
+                    let vl = new VoiceListener(context, 'win');
                     vl.run();
                 }
                 else {
@@ -24,7 +26,7 @@ function activate(context) {
                 }
             }
             else
-                vscode_1.window.showInformationMessage('Please install JRE in order to run this extension!!!');
+                vscode.window.showInformationMessage('Please install JRE in order to run this extension!!!');
         });
     });
     context.subscriptions.push(init_disposable);
@@ -35,7 +37,7 @@ class VoiceListener {
         this.sysType = type;
         this.execFile = child_process.spawn;
         this.sttbar = new SttBarItem();
-        let disposable1 = vscode_1.commands.registerCommand('toggle', () => {
+        let disposable1 = vscode.commands.registerCommand('toggle', () => {
             if (this.sttbar.getSttText() == 'on') {
                 this.sttbar.off();
                 this.killed();
@@ -45,7 +47,7 @@ class VoiceListener {
                 this.run();
             }
         });
-        let disposable2 = vscode_1.commands.registerCommand('stop_listen', () => {
+        let disposable2 = vscode.commands.registerCommand('stop_listen', () => {
             this.sttbar.off();
             this.killed();
         });
@@ -54,14 +56,17 @@ class VoiceListener {
         this.sttbar.setSttCmd('toggle');
     }
     run() {
-        if (this.sysType == 'win')
-            // console.log(this.child = this.execFile(__dirname + '/WordsMatching.exe'));
-            this.child = this.execFile(__dirname + '/WordsMatching.exe');
-        else
-            this.child = this.execFile('java', ['-jar', __dirname + '/WordsListener.jar'])
-                .on('error', err => { vscode_1.window.showInformationMessage('Something went wrong!!! Sorry 😢'); });
+        if (this.sysType == 'win') {
+            //   console.log('Using  Microsoft Speech Platform')
+            this.child = this.execFile(__dirname + '/WordsMatching.exe').on('error', error => showError(error));
+        }
+        else {
+            //   console.log('Using CMUSphinx Voice Recognition')
+            this.child = this.execFile('java', ['-jar',
+                __dirname + '/WordsListener.jar']).on('error', error => showError(error));
+        }
         this.child.stdout.on('data', data => {
-            vscode_1.window.setStatusBarMessage(data.toString(), 1000);
+            vscode.window.setStatusBarMessage(data.toString(), 1000);
             let centralCmd = new commandsClass();
             // console.log(data.toString());
             centralCmd.runCmd(data.toString().trim());
@@ -69,6 +74,9 @@ class VoiceListener {
         this.child.stderr.on('data', data => {
             console.log(data.toString());
         });
+        function showError(error) {
+            vscode.window.showInformationMessage('Something went wrong with Voice Command!!! Sorry 😢');
+        }
     }
     killed() {
         this.child.kill();
@@ -76,7 +84,7 @@ class VoiceListener {
 }
 class SttBarItem {
     constructor() {
-        this.statusBarItem = vscode_1.window.createStatusBarItem(vscode_1.StatusBarAlignment.Left, 10);
+        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 10);
         this.on();
         this.stt = 'on';
     }
@@ -109,49 +117,48 @@ class commandsClass {
     runCmd(theCmd) {
         switch (theCmd) {
             case 'copy':
-                vscode_1.commands.executeCommand('editor.action.clipboardCopyAction');
+                vscode.commands.executeCommand('editor.action.clipboardCopyAction');
                 break;
             case 'cut':
-                vscode_1.commands.executeCommand('editor.action.clipboardCutAction');
+                vscode.commands.executeCommand('editor.action.clipboardCutAction');
                 break;
             case 'delete':
-                vscode_1.commands.executeCommand('deleteLeft');
+                vscode.commands.executeCommand('deleteLeft');
                 break;
             case 'find':
-                vscode_1.commands.executeCommand('actions.find');
+                vscode.commands.executeCommand('actions.find');
                 break;
             case 'format':
-                vscode_1.commands.executeCommand('editor.action.formatDocument');
+                vscode.commands.executeCommand('editor.action.formatDocument');
                 break;
             case 'go to line':
-                vscode_1.commands.executeCommand('workbench.action.gotoLine');
+                vscode.commands.executeCommand('workbench.action.gotoLine');
                 break;
             case 'paste':
-                vscode_1.commands.executeCommand('editor.action.clipboardPasteAction');
+                vscode.commands.executeCommand('editor.action.clipboardPasteAction');
                 break;
             case 'quick open':
-                vscode_1.commands.executeCommand('workbench.action.quickOpen');
+                vscode.commands.executeCommand('workbench.action.quickOpen');
                 break;
             case 'redo':
-                vscode_1.commands.executeCommand('redo');
+                vscode.commands.executeCommand('redo');
                 break;
             case 'search':
-                vscode_1.commands.executeCommand('workbench.view.search');
+                vscode.commands.executeCommand('workbench.view.search');
                 break;
             case 'select all':
-                vscode_1.commands.executeCommand('editor.action.selectAll');
+                vscode.commands.executeCommand('editor.action.selectAll');
                 break;
             case 'stop listen':
-                vscode_1.commands.executeCommand('stop_listen');
+                vscode.commands.executeCommand('stop_listen');
                 break;
             case 'undo':
-                vscode_1.commands.executeCommand('undo');
+                vscode.commands.executeCommand('undo');
                 break;
         }
     }
 }
 // this method is called when your extension is deactivated
-function deactivate() {
-}
+function deactivate() { }
 exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map

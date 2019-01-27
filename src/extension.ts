@@ -18,8 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
     })
     spawn.on('exit', (code, signal) => {
       if (checkJRE == true) {
-        if (process.platform === 'win32') {
-          let vl = new VoiceListener(context, 'other')
+        if (process.platform == 'win32') {
+          let vl = new VoiceListener(context, 'win')
           vl.run()
         } else {
           let vl = new VoiceListener(context, 'other')
@@ -62,16 +62,15 @@ class VoiceListener {
     this.sttbar.setSttCmd('toggle')
   }
   run() {
-    if (this.sysType == 'win')
-      // console.log(this.child = this.execFile(__dirname + '/WordsMatching.exe'));
-      this.child = this.execFile(__dirname + '/WordsMatching.exe')
-    else
-      this.child = this.execFile('java', [
-        '-jar',
-        __dirname + '/WordsListener.jar'
-      ]).on('error', err => {
-        vscode.window.showInformationMessage('Something went wrong!!! Sorry 😢')
-      })
+    if (this.sysType == 'win') {
+    //   console.log('Using  Microsoft Speech Platform')
+      this.child = this.execFile(__dirname + '/WordsMatching.exe').on('error', error => showError(error)
+      )
+    } else {
+    //   console.log('Using CMUSphinx Voice Recognition')
+      this.child = this.execFile('java', ['-jar',
+        __dirname + '/WordsListener.jar']).on('error', error => showError(error))
+    }
     this.child.stdout.on('data', data => {
       vscode.window.setStatusBarMessage(data.toString(), 1000)
       let centralCmd = new commandsClass()
@@ -82,6 +81,10 @@ class VoiceListener {
     this.child.stderr.on('data', data => {
       console.log(data.toString())
     })
+
+    function showError(error) {
+      vscode.window.showInformationMessage('Something went wrong with Voice Command!!! Sorry 😢')
+    }
   }
   killed() {
     this.child.kill()
