@@ -1,5 +1,5 @@
 .vscode-test/
-.vsix
+*.vsix
 backend/CMUSphinx/.recommenders
 backend/CMUSphinx/Words Listener/bin
 backend/MS Speech/bin
