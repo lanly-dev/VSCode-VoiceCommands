@@ -5,33 +5,27 @@ import * as child_process from 'child_process'
 
 export function activate(context: vscode.ExtensionContext) {
   let checkJRE = false
-  let init_disposable = vscode.commands.registerCommand('start', () => {
-    // window.showInformationMessage('This is Voice Command! activated');
-    var spawn = child_process.spawn('java', ['-version']).on('error', err => {
-      vscode.window.showInformationMessage(
-        'Please install JRE in order to run this extension!!!'
-      )
-    })
-    spawn.stderr.on('data', (data: Buffer) => {
-      if (data.indexOf('version') >= 0) checkJRE = true
-      spawn.kill()
-    })
-    spawn.on('exit', (code, signal) => {
-      if (checkJRE == true) {
-        if (process.platform == 'win32') {
-          let vl = new VoiceListener(context, 'win')
-          vl.run()
-        } else {
-          let vl = new VoiceListener(context, 'other')
-          vl.run()
-        }
-      } else
-        vscode.window.showInformationMessage(
-          'Please install JRE in order to run this extension!!!'
-        )
-    })
+  // window.showInformationMessage('This is Voice Command! activated');
+  const spawn = child_process.spawn('java', ['-version']).on('error', err => showJErrorMsg())
+  spawn.stderr.on('data', (data: Buffer) => {
+    if (data.indexOf('version') >= 0) checkJRE = true
+    spawn.kill()
   })
-  context.subscriptions.push(init_disposable)
+  spawn.on('exit', (code, signal) => {
+    if (checkJRE == true) {
+      if (process.platform == 'win32') {
+        let vl = new VoiceListener(context, 'win')
+        vl.run()
+      } else {
+        let vl = new VoiceListener(context, 'other')
+        vl.run()
+      }
+    } else showJErrorMsg()
+  })
+
+  function showJErrorMsg() {
+    vscode.window.showInformationMessage('Please install JRE(JDK for MacOS) in order to run this extension!!!')
+  }
 }
 
 class VoiceListener {
@@ -63,13 +57,11 @@ class VoiceListener {
   }
   run() {
     if (this.sysType == 'win') {
-    //   console.log('Using  Microsoft Speech Platform')
-      this.child = this.execFile(__dirname + '/WordsMatching.exe').on('error', error => showError(error)
-      )
+      //   console.log('Using  Microsoft Speech Platform')
+      this.child = this.execFile(__dirname + '/WordsMatching.exe').on('error', error => showError(error))
     } else {
-    //   console.log('Using CMUSphinx Voice Recognition')
-      this.child = this.execFile('java', ['-jar',
-        __dirname + '/WordsListener.jar']).on('error', error => showError(error))
+      //   console.log('Using CMUSphinx Voice Recognition')
+      this.child = this.execFile('java', ['-jar', __dirname + '/WordsListener.jar']).on('error', error => showError(error))
     }
     this.child.stdout.on('data', data => {
       vscode.window.setStatusBarMessage(data.toString(), 1000)

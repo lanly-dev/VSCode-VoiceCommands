@@ -4,32 +4,30 @@ const vscode = require("vscode");
 const child_process = require("child_process");
 function activate(context) {
     let checkJRE = false;
-    let init_disposable = vscode.commands.registerCommand('start', () => {
-        // window.showInformationMessage('This is Voice Command! activated');
-        var spawn = child_process.spawn('java', ['-version']).on('error', err => {
-            vscode.window.showInformationMessage('Please install JRE in order to run this extension!!!');
-        });
-        spawn.stderr.on('data', (data) => {
-            if (data.indexOf('version') >= 0)
-                checkJRE = true;
-            spawn.kill();
-        });
-        spawn.on('exit', (code, signal) => {
-            if (checkJRE == true) {
-                if (process.platform == 'win32') {
-                    let vl = new VoiceListener(context, 'win');
-                    vl.run();
-                }
-                else {
-                    let vl = new VoiceListener(context, 'other');
-                    vl.run();
-                }
-            }
-            else
-                vscode.window.showInformationMessage('Please install JRE in order to run this extension!!!');
-        });
+    // window.showInformationMessage('This is Voice Command! activated');
+    const spawn = child_process.spawn('java', ['-version']).on('error', err => showJErrorMsg());
+    spawn.stderr.on('data', (data) => {
+        if (data.indexOf('version') >= 0)
+            checkJRE = true;
+        spawn.kill();
     });
-    context.subscriptions.push(init_disposable);
+    spawn.on('exit', (code, signal) => {
+        if (checkJRE == true) {
+            if (process.platform == 'win32') {
+                let vl = new VoiceListener(context, 'win');
+                vl.run();
+            }
+            else {
+                let vl = new VoiceListener(context, 'other');
+                vl.run();
+            }
+        }
+        else
+            showJErrorMsg();
+    });
+    function showJErrorMsg() {
+        vscode.window.showInformationMessage('Please install JRE(JDK for MacOS) in order to run this extension!!!');
+    }
 }
 exports.activate = activate;
 class VoiceListener {
@@ -62,8 +60,7 @@ class VoiceListener {
         }
         else {
             //   console.log('Using CMUSphinx Voice Recognition')
-            this.child = this.execFile('java', ['-jar',
-                __dirname + '/WordsListener.jar']).on('error', error => showError(error));
+            this.child = this.execFile('java', ['-jar', __dirname + '/WordsListener.jar']).on('error', error => showError(error));
         }
         this.child.stdout.on('data', data => {
             vscode.window.setStatusBarMessage(data.toString(), 1000);

@@ -17,17 +17,10 @@
     ],
     "icon": "icon/voicecmd2.png",
     "activationEvents": [
-        "onCommand:start"
+        "*"
     ],
     "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "start",
-                "title": "Voice Commands"
-            }
-        ]
-    },
+    "contributes": {},
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
