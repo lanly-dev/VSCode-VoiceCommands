@@ -72,7 +72,7 @@ class VoiceListener {
             console.log(data.toString());
         });
         function showError(error) {
-            vscode.window.showInformationMessage('Something went wrong with Voice Command!!! Sorry 😢');
+            vscode.window.showInformationMessage('Something went wrong with Voice Commands!!! Sorry 😢');
         }
     }
     killed() {

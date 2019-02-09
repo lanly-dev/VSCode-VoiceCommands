@@ -2,7 +2,7 @@
     "name": "voice-commands",
     "displayName": "Voice Commands",
     "description": "Listen to the user's voice commands",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "publisher": "lanly-dev",
     "engines": {
         "vscode": "^1.18.0"
