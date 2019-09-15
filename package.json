@@ -1,42 +1,46 @@
 {
-    "name": "voice-commands",
-    "displayName": "Voice Commands",
-    "description": "Listen to the user's voice commands",
-    "version": "2.1.0",
-    "publisher": "lanly-dev",
-    "engines": {
-        "vscode": "^1.18.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "keywords": [
-        "Voice",
-        "Command",
-        "Speech Recognition"
-    ],
-    "icon": "icon/voicecmd2.png",
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./out/extension",
-    "contributes": {},
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^5.2.5",
-        "@types/node": "^10.12.18",
-        "typescript": "^3.2.4",
-        "vscode": "^1.1.28"
-    },
-    "dependencies": {},
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lanly-dev/VSCode-VoiceCommands-Extension"
-    }
+	"name": "voice-commands",
+	"displayName": "Voice Commands",
+	"description": "Listen to the user's voice commands",
+	"version": "2.1.0",
+	"publisher": "lanly-dev",
+	"engines": {
+		"vscode": "^1.38.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"Voice",
+		"Command",
+		"Speech Recognition"
+	],
+	"icon": "icon/voicecmd2.png",
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.7.5",
+		"@types/vscode": "^1.38.0",
+		"glob": "^7.1.4",
+		"mocha": "^6.2.0",
+		"typescript": "^3.6.3",
+		"tslint": "^5.20.0",
+		"vscode-test": "^1.2.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/lanly-dev/VSCode-VoiceCommands-Extension.git"
+	}
 }

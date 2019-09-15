@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
     - Depends on the popularity of this extension.
-    - Possible future features: 
+    - Possible future features:
         * Enable/disable specific commands.
         * Add new commands.
         * Switch to better maintained library or intergate with virtual assisstant API.
@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [2.0.0, 2.0.1] - Jan 2018
 ### Added
-    - Cross-platform: 
+    - Cross-platform:
         - Windows OS still uses built-in Speech library.
         - Other OS uses JRE to run the CMUSphinx open source speech recognition.
     - New commands: delete, stop listen, format.

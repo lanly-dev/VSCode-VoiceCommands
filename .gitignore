@@ -4,6 +4,7 @@ backend/CMUSphinx/.recommenders
 backend/CMUSphinx/Words Listener/bin
 backend/MS Speech/bin
 backend/MS Speech/obj
-icon/res/**
+icon/res/
 node_modules
+out/test/
 package-lock.json
