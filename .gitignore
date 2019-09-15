@@ -1,9 +1,5 @@
 .vscode-test/
 *.vsix
-backend/CMUSphinx/.recommenders
-backend/CMUSphinx/Words Listener/bin
-backend/MS Speech/bin
-backend/MS Speech/obj
 icon/res/
 node_modules
 out/test/
