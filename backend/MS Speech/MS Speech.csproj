@@ -1,17 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <DebugType>portable</DebugType>
     <AssemblyName>WordsMatching</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>WordsMatching</PackageId>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+  <ItemGroup>
     <Reference Include="System.Speech" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
