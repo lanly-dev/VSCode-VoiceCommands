@@ -2,5 +2,7 @@
 *.vsix
 icon/res/
 node_modules
-out/test/
+out/
 package-lock.json
+src/WordsListener.jar
+src/WordsMatching.exe

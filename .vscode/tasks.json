@@ -15,6 +15,16 @@
 				"kind": "build",
 				"isDefault": true
 			}
-		}
+		},
+		{
+      "type": "npm",
+      "script": "task-clean",
+      "isBackground": false
+    },
+    {
+      "type": "npm",
+      "script": "task-copy",
+      "isBackground": false
+    }
 	]
 }
