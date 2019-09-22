@@ -2,7 +2,8 @@
   "name": "voice-commands",
   "displayName": "Voice Commands",
   "description": "Listen to the user's voice commands",
-  "version": "2.1.0",
+  "homepage": "https://github.com/lanly-dev/VSCode-VoiceCommands",
+  "version": "2.1.1",
   "publisher": "lanly-dev",
   "engines": {
     "vscode": "^1.38.0"
@@ -15,7 +16,7 @@
     "Command",
     "Speech Recognition"
   ],
-  "icon": "icon/voicecmd2.png",
+  "icon": "icon/voicecmd3.png",
   "activationEvents": [
     "*"
   ],
@@ -47,5 +48,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/lanly-dev/VSCode-VoiceCommands-Extension.git"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/lanly-dev/VSCode-VoiceCommands/issues"
+  },
+  "license": "MIT"
 }

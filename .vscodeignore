@@ -2,6 +2,7 @@
 .gitignore
 .vscode-test/
 .vscode/
+**/.DS_Store
 **/*.map
 **/*.ts
 **/tsconfig.json
@@ -11,4 +12,5 @@ icon/res/
 out/test/
 package-lock.json
 src/
+tasks.ts
 vsc-extension-quickstart.md
