@@ -1,45 +1,43 @@
 'use strict'
 
-import * as vscode from 'vscode'
-import * as child_process from 'child_process'
+import { ExtensionContext, StatusBarItem, StatusBarAlignment, commands, window, } from 'vscode'
+import { spawn } from 'child_process'
+import { platform } from 'os'
+import { join } from 'path'
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
   let checkJRE = false
   // window.showInformationMessage('This is Voice Command! activated');
-  const spawn = child_process.spawn('java', ['-version']).on('error', err => showJErrorMsg())
-  spawn.stderr.on('data', (data: Buffer) => {
+  const checkJREprocess = spawn('java', ['-version']).on('error', err => showJErrorMsg())
+  checkJREprocess.stderr.on('data', (data: Buffer) => {
+    // console.log(data.toString())
     if (data.indexOf('version') >= 0) checkJRE = true
-    spawn.kill()
+    checkJREprocess.kill()
   })
-  spawn.on('exit', (code, signal) => {
-    if (checkJRE == true) {
-      if (process.platform == 'win32') {
-        let vl = new VoiceListener(context, 'win')
-        vl.run()
-      } else {
-        let vl = new VoiceListener(context, 'other')
-        vl.run()
-      }
-    } else showJErrorMsg()
+  checkJREprocess.on('exit', (code, signal) => {
+    if (checkJRE === true) new VoiceListener(context, platform())
+    else showJErrorMsg()
   })
 
   function showJErrorMsg() {
-    vscode.window.showInformationMessage('Please install JRE(JDK for MacOS) in order to run this extension!!!')
+    window.showInformationMessage('Please install JRE(JDK for MacOS) in order to run this extension!!!')
   }
 }
 
 class VoiceListener {
   private sysType: String
+  // @ts-ignore
   private execFile
+  // @ts-ignore
   private child
   private sttbar: SttBarItem
 
-  constructor(context: vscode.ExtensionContext, type: String) {
+  constructor(context: ExtensionContext, type: String) {
     this.sysType = type
-    this.execFile = child_process.spawn
+    this.execFile = spawn
     this.sttbar = new SttBarItem()
-    let disposable1 = vscode.commands.registerCommand('toggle', () => {
-      if (this.sttbar.getSttText() == 'on') {
+    const d1 = commands.registerCommand('toggle', () => {
+      if (this.sttbar.getSttText() === 'on') {
         this.sttbar.off()
         this.killed()
       } else {
@@ -47,56 +45,58 @@ class VoiceListener {
         this.run()
       }
     })
-    let disposable2 = vscode.commands.registerCommand('stop_listen', () => {
+    const d2 = commands.registerCommand('stop_listen', () => {
       this.sttbar.off()
       this.killed()
     })
-    context.subscriptions.push(disposable1)
-    context.subscriptions.push(disposable2)
+    context.subscriptions.concat([d1, d2])
     this.sttbar.setSttCmd('toggle')
   }
+
   run() {
-    if (this.sysType == 'win') {
-      //   console.log('Using  Microsoft Speech Platform')
-      this.child = this.execFile(__dirname + '/WordsMatching.exe').on('error', error => showError(error))
+    if (this.sysType === 'win32') {
+      // console.log('Using Microsoft Speech Platform')
+      this.child = this.execFile(join(__dirname, 'WordsMatching.exe')).on('error', (error: any) => showError(error))
     } else {
-      //   console.log('Using CMUSphinx Voice Recognition')
-      this.child = this.execFile('java', ['-jar', __dirname + '/WordsListener.jar']).on('error', error => showError(error))
+      // console.log('Using CMUSphinx Voice Recognition')
+      this.child = this.execFile('java', ['-jar', join(__dirname, 'WordsListener.jar')]).on('error', (error: any) => showError(error))
     }
-    this.child.stdout.on('data', data => {
-      vscode.window.setStatusBarMessage(data.toString(), 1000)
-      let centralCmd = new commandsClass()
-      // console.log(data.toString());
-      centralCmd.runCmd(data.toString().trim())
-    })
+    this.child.stdout.on('data',
+      (data: Buffer) => {
+        window.setStatusBarMessage(data.toString(), 1000)
+        let centralCmd = new CommandsClass()
+        // console.log(data.toString());
+        centralCmd.runCmd(data.toString().trim())
+      })
 
-    this.child.stderr.on('data', data => {
-      console.log(data.toString())
-    })
+    this.child.stderr.on('data', (data: any) => console.log(data.toString()))
 
-    function showError(error) {
-      vscode.window.showInformationMessage('Something went wrong with Voice Commands!!! Sorry 😢')
+    function showError(error: any) {
+      window.showInformationMessage(`Something went wrong with Voice Commands!!! Sorry 😢 - ${error}`)
     }
   }
+
   killed() {
     this.child.kill()
   }
 }
 
 class SttBarItem {
-  private statusBarItem: vscode.StatusBarItem
+  private statusBarItem: StatusBarItem
   private stt: string
 
   constructor() {
-    this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 10)
-    this.on()
-    this.stt = 'on'
+    this.statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left, 10)
+    this.stt = "off"
+    this.off()
   }
+
   on() {
     this.statusBarItem.text = '💬 listening'
     this.statusBarItem.show()
     this.stt = 'on'
   }
+
   off() {
     this.statusBarItem.text = '✖️️ Stop'
     this.statusBarItem.show()
@@ -115,56 +115,57 @@ class SttBarItem {
   getSttText() {
     return this.stt
   }
-  setSttCmd(cmd) {
+
+  setSttCmd(cmd: string | undefined) {
     this.statusBarItem.command = cmd
   }
 }
 
-class commandsClass {
+class CommandsClass {
   runCmd(theCmd: string) {
     switch (theCmd) {
       case 'copy':
-        vscode.commands.executeCommand('editor.action.clipboardCopyAction')
+        commands.executeCommand('editor.action.clipboardCopyAction')
         break
       case 'cut':
-        vscode.commands.executeCommand('editor.action.clipboardCutAction')
+        commands.executeCommand('editor.action.clipboardCutAction')
         break
       case 'delete':
-        vscode.commands.executeCommand('deleteLeft')
+        commands.executeCommand('deleteLeft')
         break
       case 'find':
-        vscode.commands.executeCommand('actions.find')
+        commands.executeCommand('actions.find')
         break
       case 'format':
-        vscode.commands.executeCommand('editor.action.formatDocument')
+        commands.executeCommand('editor.action.formatDocument')
         break
       case 'go to line':
-        vscode.commands.executeCommand('workbench.action.gotoLine')
+        commands.executeCommand('workbench.action.gotoLine')
         break
       case 'paste':
-        vscode.commands.executeCommand('editor.action.clipboardPasteAction')
+        commands.executeCommand('editor.action.clipboardPasteAction')
         break
       case 'quick open':
-        vscode.commands.executeCommand('workbench.action.quickOpen')
+        commands.executeCommand('workbench.action.quickOpen')
         break
       case 'redo':
-        vscode.commands.executeCommand('redo')
+        commands.executeCommand('redo')
         break
       case 'search':
-        vscode.commands.executeCommand('workbench.view.search')
+        commands.executeCommand('workbench.view.search')
         break
       case 'select all':
-        vscode.commands.executeCommand('editor.action.selectAll')
+        commands.executeCommand('editor.action.selectAll')
         break
       case 'stop listen':
-        vscode.commands.executeCommand('stop_listen')
+        commands.executeCommand('stop_listen')
         break
       case 'undo':
-        vscode.commands.executeCommand('undo')
+        commands.executeCommand('undo')
         break
     }
   }
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
