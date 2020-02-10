@@ -1,15 +1,13 @@
 .git
 .gitignore
-.vscode-test/
 .vscode/
 **/.DS_Store
+**/.eslintrc.json
 **/*.map
 **/*.ts
 **/tsconfig.json
-**/tslint.json
 backend/
 icon/res/
-out/test/
 package-lock.json
 src/
 tasks.ts
