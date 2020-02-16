@@ -1,6 +1,7 @@
 .vscode-test/
 *.vsix
 **/.DS_Store
+dist/
 icon/res/
 node_modules
 out/

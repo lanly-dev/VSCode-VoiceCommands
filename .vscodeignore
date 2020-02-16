@@ -8,7 +8,10 @@
 **/tsconfig.json
 backend/
 icon/res/
+node_modules
 package-lock.json
+out/
 src/
 tasks.ts
 vsc-extension-quickstart.md
+webpack.config.js

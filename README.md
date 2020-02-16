@@ -33,10 +33,13 @@ Context menu could hold the commands' actions
 
 ## Release Notes
 
+### 2.1.2
+- Use Webpack
+
 ### 2.1.1
 - Activate extension in off mode from the start
 - Update project's dependencies
-- New icon
+- [New icon](icon/voicecmd3.png)
 
 ### 2.1.0
 - Bugfix - Windows OS wasn't using MSP
@@ -47,7 +50,7 @@ Context menu could hold the commands' actions
 - Development SDK and packages: donet core 2.0, .NET framework 4.7.1, Sphinx4 alpha5
 - Now the extension is cross-platform thanks to [CMUSphinx Voice Recognition](https://cmusphinx.github.io/)
 - Note that this extension still uses the built-in [Microsoft Speech Platform](https://msdn.microsoft.com/en-us/library/office/hh361572(v=office.14).aspx) if it use in Windows OS
-- New icon
+- [New icon](icon/voicecmd2.png)
 
 ### 1.0.0
 - Initial release of voice commands
